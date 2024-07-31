@@ -87,20 +87,6 @@ Request URL: `/api/search?q=Arsenal`
 }
 ```
 
-## Setup
-
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
-
-2. **Deploy to Vercel**
-
-   Ensure you have the Vercel CLI installed and configured, then deploy using:
-
-   ```bash
-   vercel
-   ```
 
 ## Usage
 
