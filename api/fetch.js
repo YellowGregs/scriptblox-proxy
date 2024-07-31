@@ -20,7 +20,8 @@ export default async function handler(req, res) {
 
     try {
         const fetch = (await import('node-fetch')).default;
-        const response = await fetch('https://scriptblox.com/api/script/fetch?page=1');
+        const page = req.query.page || 1; 
+        const response = await fetch(`https://scriptblox.com/api/script/fetch?page=${page}`);
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
