@@ -14,8 +14,8 @@ module.exports = async (req, res) => {
         // just cheking :)
         const contentType = pfp.endsWith('.png') ? 'image/png' : 'image/jpeg';
 
-        res.set('Content-Type', contentType);
-        res.send(imageResponse.data);
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(imageResponse.data);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch this user pfp image' });
