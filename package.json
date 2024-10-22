@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "axios": "^1.7.7",
     "express": "^4.21.0",
     "node-fetch": "^3.3.2"
   }
