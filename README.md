@@ -1,11 +1,12 @@
 # Scriptblox Proxy API
-I made this api proxy since my script searcher website broke after scriptblox updated there api and website so i had to code a proxy to make the api work again.
+
+I created this API proxy because my script searcher website broke after Scriptblox updated their API and website. This proxy allows the API to work again for my script searcher.
 
 ## Endpoints
 
 ### 1. `/api/fetch`
 
-Fetches a all of the scripts from the Scriptblox API.
+Fetches all of the scripts from the Scriptblox API.
 
 - **Method:** `GET`
 - **Description:** Retrieves a list of scripts available on Scriptblox.
@@ -62,7 +63,7 @@ Returns a JSON object containing the search results.
 
 #### Example
 
-Request URL: `/api/search?q=Arsenal`
+Request URL: `https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal`
 
 ```json
 {
@@ -87,17 +88,77 @@ Request URL: `/api/search?q=Arsenal`
 }
 ```
 
+### 3. `/api/info`
+
+Fetches user information from the Scriptblox API.
+
+- **Method:** `GET`
+- **Description:** gets the info of an specific account when putting the username.
+
+#### Request
+
+- **Query Parameters:**
+  - `username` (string): The username of the user (required).
+
+#### Response
+
+Returns a JSON object containing user data.
+
+#### Example
+
+Request URL: `https://scriptblox-api-proxy.vercel.app/api/info?username=YellowGreg`
+
+```json
+{
+  "user": {
+    "_id": "64d526aaafa696af4c6d5f20",
+    "username": "YellowGreg",
+    "verified": true,
+    "role": "user",
+    "profilePicture": "/images/photo/64d526aaafa696af4c6d5f20-1727043362341.jpg",
+    "bio": "👋 Hi, I create basic & straightforward scripts that focus on simple useful features.",
+    "createdAt": "2023-08-10T18:04:26.778Z",
+    "lastActive": "2024-10-22T04:32:04.976Z",
+    "discord": {
+      "id": "773952016036790272",
+      "username": "yellowgreg",
+      "discriminator": "0"
+    },
+    "status": "offline",
+    "id": "64d526aaafa696af4c6d5f20",
+    "followingCount": 0,
+    "followersCount": 6,
+    "scriptCount": 9
+  }
+}
+```
+
+### 4. `/api/pfp`
+
+Fetches the profile picture of a user from the Scriptblox API.
+
+- **Method:** `GET`
+- **Description:** Gets the profile picture(image) of a user, on their username.
+
+#### Request
+
+- **Query Parameters:**
+  - `username` (string): The username of the user (required).
+
+#### Response
+
+Returns the profile picture as an image.
+
+#### Example
+
+Request URL: `https://scriptblox-api-proxy.vercel.app/api/pfp?username=YellowGreg`
+
+- Returns an image response.
 
 ## Usage
 
 This makes the HTTP requests to the API endpoints to fetch or search for scripts. Also note that it has a rate limits to avoid 429 errors due to too many requests.
 
-## Error Handling
-
-- **429 Too Many Requests:** Occurs when requests are made too frequently. Please wait and try again later after like 5-10 seconds.
-- **500 Internal Server Error:** Indicates an issue with the proxy server or the external API. Check the logs for more details.
-
 ## License
 
-this is free to use I only made it for my own script searcher website that had been broken.
-
+This API is free to use. I created it for my own script searcher website that had been broken.
