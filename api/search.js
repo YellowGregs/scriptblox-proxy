@@ -17,6 +17,7 @@ export default async function Handler(req, res) {
     const origin = req.headers.origin || req.headers.referer || "";
 
     if (blacklistedDomains.some(domain => origin.includes(domain))) {
+        console.warn(`Blocked request from blacklisted domain: ${origin}`);
         return res.status(403).json({ error: 'Access forbidden from this domain.' });
     }
 
@@ -44,9 +45,8 @@ export default async function Handler(req, res) {
 
     try {
         const fetch = (await import('node-fetch')).default;
-
         const queryParams = new URLSearchParams(params);
-        
+
         if (scriptName) queryParams.append('script name', scriptName);
         if (mode) queryParams.append('mode', mode);
 
