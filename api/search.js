@@ -8,7 +8,7 @@ export default async function Handler(req, res) {
 
     let blacklistedDomains = [];
     try {
-        const blacklistData = await fs.readFile('./api/blacklist.json', 'utf-8');
+        const blacklistData = await fs.readFile('./blacklist.json', 'utf-8');
         blacklistedDomains = JSON.parse(blacklistData).blacklisted_domains || [];
     } catch (error) {
         console.error('Error loading blacklist:', error);
