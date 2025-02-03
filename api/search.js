@@ -1,14 +1,18 @@
 import { promises as fs } from 'fs';
+import path from 'path';
+
 let lastSearch = 0;
 
-export default async function Handler(req, res) {
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+    const blacklistPath = path.join(process.cwd(), 'api', 'blacklist.json');
+
     let blacklistedDomains = [];
     try {
-        const blacklistData = await fs.readFile('./blacklist.json', 'utf-8');
+        const blacklistData = await fs.readFile(blacklistPath, 'utf-8');
         blacklistedDomains = JSON.parse(blacklistData).blacklisted_domains || [];
     } catch (error) {
         console.error('Error loading blacklist:', error);
