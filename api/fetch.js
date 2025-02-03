@@ -3,7 +3,7 @@ import path from 'path';
 
 let lastFetch = 0;
 const blockedLogTimes = new Map(); 
-const LOG_INTERVAL = 5 * 60 * 1000; // 5 minutes
+const LOG_INTERVAL = 15 * 60 * 1000; // 15 minutes
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
