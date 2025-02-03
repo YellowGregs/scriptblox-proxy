@@ -1,9 +1,24 @@
+import { promises as fs } from 'fs';
 let lastFetch = 0;
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    let blacklistedDomains = [];
+    try {
+        const blacklistData = await fs.readFile('./api/blacklist.json', 'utf-8');
+        blacklistedDomains = JSON.parse(blacklistData).blacklisted_domains || [];
+    } catch (error) {
+        console.error('Error loading blacklist:', error);
+    }
+
+    const origin = req.headers.origin || req.headers.referer || "";
+
+    if (blacklistedDomains.some(domain => origin.includes(domain))) {
+        return res.status(403).json({ error: 'Access forbidden from this domain.' });
+    }
 
     const now = Date.now();
     const rateLimitDelay = 1000; // 1 second
