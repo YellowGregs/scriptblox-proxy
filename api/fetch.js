@@ -2,6 +2,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 let lastFetch = 0;
+const blockedLogTimes = new Map(); 
+const LOG_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,7 +23,14 @@ export default async function handler(req, res) {
     const origin = req.headers.origin || req.headers.referer || "";
 
     if (blacklistedDomains.some(domain => origin.includes(domain))) {
-        console.warn(`Blocked request from blacklisted domain: ${origin}`);
+        const lastLogTime = blockedLogTimes.get(origin) || 0;
+        const now = Date.now();
+
+        if (now - lastLogTime > LOG_INTERVAL) {
+            console.warn(`Blocked request from blacklisted domain: ${origin}`);
+            blockedLogTimes.set(origin, now);
+        }
+
         return res.status(403).json({ error: 'Access forbidden from this domain.' });
     }
 
@@ -40,7 +49,7 @@ export default async function handler(req, res) {
 
     try {
         const fetch = (await import('node-fetch')).default;
-        const page = req.query.page || 1; 
+        const page = req.query.page || 1;
         const response = await fetch(`https://scriptblox.com/api/script/fetch?page=${page}`);
 
         if (!response.ok) {
