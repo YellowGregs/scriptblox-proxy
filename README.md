@@ -46,7 +46,7 @@ Returns a JSON object containing script data.
 
 ### 2. `/api/search`
 
-Searches for scripts from the query string.
+Searches for scripts using the provided query string.
 
 - **Method:** `GET`
 - **Description:** Searches the Scriptblox API for scripts matching the provided query.
@@ -55,7 +55,10 @@ Searches for scripts from the query string.
 #### Request
 
 - **Query Parameters:**
-  - `q` (string): The search query (required).
+  - `q` (string, required): The search query.
+  - `page` (number, optional): The page number to retrieve. This allows you to navigate through all available pages.
+  - `scriptName` (string, optional): Filter results by script name.
+  - `mode` (string, optional): Filter results by mode (`free` or `paid`).
 
 #### Response
 
