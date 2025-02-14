@@ -63,26 +63,40 @@ Returns a JSON object containing the search results.
 
 #### Example
 
-Request URL: `https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal`
+Request URL: `https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal&page=1&mode=free`
 
 ```json
 {
   "result": {
-    "totalPages": 21,
+    "totalPages": 47,
     "scripts": [
       {
-        "_id": "66a72f6f69a9e4d48a6e2174d",
-        "title": "Arsenal Thunder Client V2",
+        "_id": "667a72d2bdddf02d71072a9d",
+        "title": "solaris.lol",
         "game": {
-          "gameId": 286090429,
-          "name": "Arsenal",
-          "imageUrl": "/images/script/286090429-1715878469600.webp"
+          "gameId": 301549746,
+          "name": "Counter Blox",
+          "imageUrl": "/images/script/301549746-1719300818355.webp"
         },
-        "script": "loadstring(game:HttpGet('https://rawscripts.net/raw/Arsenal-Thunder-Client-V2-12177'))()",
-        "slug": "Arsenal-Thunder-Client-V2-12177",
+        "script": "loadstring(game:HttpGet(\"https://rawscripts.net/raw/Counter-Blox-Solaris-14633\"))()",
+        "slug": "Counter-Blox-Solaris-14633",
         "verified": true,
-        ...
-      }
+        "key": false,
+        "keyLink": "",
+        "views": 268251,
+        "scriptType": "free",
+        "isUniversal": false,
+        "isPatched": false,
+        "visibility": "public",
+        "createdAt": "2024-06-25T07:33:38.416Z",
+        "updatedAt": "2025-02-14T18:59:02.332Z",
+        "__v": 0,
+        "matched": [
+          "features",
+          "tags"
+        ]
+      },
+      ...
     ]
   }
 }
