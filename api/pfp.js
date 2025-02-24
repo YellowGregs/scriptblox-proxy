@@ -9,13 +9,13 @@ module.exports = async (req, res) => {
         const pfp = response.data.user.profilePicture;
         const imageUrl = `https://scriptblox.com${pfp}`;
 
-        const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        const image = await axios.get(imageUrl, { responseType: 'arraybuffer' });
 
         // just cheking :)
-        const contentType = pfp.endsWith('.png') ? 'image/png' : 'image/jpeg';
+        const Type = pfp.endsWith('.png') ? 'image/png' : 'image/jpeg';
 
-        res.writeHead(200, { 'Content-Type': contentType });
-        res.end(imageResponse.data);
+        res.writeHead(200, { 'Content-Type': Type });
+        res.end(image.data);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch this user pfp image' });
