@@ -1,24 +1,24 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const lastSearches = new Map();
+const last_searches = new Map();
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  const blacklistPath = path.join(process.cwd(), 'api', 'blacklist.json');
-  let blacklistedDomains = [];
+  const Path = path.join(process.cwd(), 'api', 'blacklist.json');
+  let blacklist_domain = [];
   try {
-    const blacklistData = await fs.readFile(blacklistPath, 'utf-8');
-    blacklistedDomains = JSON.parse(blacklistData).blacklisted_domains || [];
+    const Blacklisted = await fs.readFile(Path, 'utf-8');
+    blacklist_domain = JSON.parse(Blacklisted).blacklisted_domains || [];
   } catch (error) {
     console.error('Error loading blacklist:', error);
   }
 
   const origin = req.headers.origin || req.headers.referer || "";
-  if (blacklistedDomains.some(domain => origin.includes(domain))) {
+  if (blacklist_domain.some(domain => origin.includes(domain))) {
     console.warn(`Blocked request from blacklisted domain: ${origin}`);
     return res.status(403).json({ error: 'Access forbidden from this domain.' });
   }
@@ -39,11 +39,11 @@ export default async function handler(req, res) {
   const delay = 1000;
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   const now = Date.now();
-  const lastSearch = lastSearches.get(ip) || 0;
-  if (now - lastSearch < delay) {
+  const last_search = last_searches.get(ip) || 0;
+  if (now - last_search < delay) {
     return res.status(429).json({ error: 'Too many requests. Please try again later.' });
   }
-  lastSearches.set(ip, now);
+  last_searches.set(ip, now);
 
   try {
     const fetch = (await import('node-fetch')).default;
