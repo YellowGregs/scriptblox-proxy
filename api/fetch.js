@@ -1,8 +1,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-let lastFetch = 0;
-const blockedLogTimes = new Map(); 
+let lastfetch = 0;
+const blocked_log_times = new Map(); 
 const LOG_INTERVAL = 15 * 60 * 1000; // 15 minutes
 
 export default async function handler(req, res) {
@@ -10,38 +10,38 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    const blacklistPath = path.join(process.cwd(), 'api', 'blacklist.json');
+    const bpath = path.join(process.cwd(), 'api', 'blacklist.json');
 
-    let blacklistedDomains = [];
+    let blacklist_domain = [];
     try {
-        const blacklistData = await fs.readFile(blacklistPath, 'utf-8');
-        blacklistedDomains = JSON.parse(blacklistData).blacklisted_domains || [];
+        const blacklistData = await fs.readFile(bpath, 'utf-8');
+        blacklist_domain = JSON.parse(blacklistData).blacklisted_domains || [];
     } catch (error) {
         console.error('Error loading blacklist:', error);
     }
 
     const origin = req.headers.origin || req.headers.referer || "";
 
-    if (blacklistedDomains.some(domain => origin.includes(domain))) {
-        const lastLogTime = blockedLogTimes.get(origin) || 0;
+    if (blacklist_domain.some(domain => origin.includes(domain))) {
+        const lastLogTime = blocked_log_times.get(origin) || 0;
         const now = Date.now();
 
         if (now - lastLogTime > LOG_INTERVAL) {
             console.warn(`Blocked request from blacklisted domain: ${origin}`);
-            blockedLogTimes.set(origin, now);
+            blocked_log_times.set(origin, now);
         }
 
         return res.status(403).json({ error: 'Access forbidden from this domain.' });
     }
 
     const now = Date.now();
-    const rateLimitDelay = 1000; // 1 second
+    const rate_limit_delay = 1000; // 1 second
 
-    if (now - lastFetch < rateLimitDelay) {
+    if (now - lastfetch < rate_limit_delay) {
         return res.status(429).json({ error: 'Too many requests, please try again later.' });
     }
 
-    lastFetch = now;
+    lastfetch = now;
 
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'Method not allowed' });
