@@ -1,20 +1,32 @@
 # Scriptblox Proxy API
 
-I created this API proxy because my script searcher website broke after Scriptblox updated their API and website. This proxy allows the API to work again for my script searcher.
+This proxy API was built to restore functionality to my script searcher website after Scriptblox updated their API and website. It now supports the new API parameters while still offering temporary legacy support during the migration period.
 
 ## Endpoints
 
 ### 1. `/api/fetch`
 
-Fetches all of the scripts from the Scriptblox API.
+Fetches a list of scripts from the Scriptblox API.
 
 - **Method:** `GET`
-- **Description:** Retrieves a list of scripts available on Scriptblox.
+- **Description:** Retrieves all scripts available on Scriptblox. The endpoint now supports explicit parameters in place of the legacy `filters` parameter. Legacy filters are automatically mapped to the new parameters; however, you can pass the new parameters directly if desired.
 - **Rate Limiting:** 1 request per second.
 
 #### Request
 
-No parameters required.
+_No additional parameters are required._  
+instead, you can include:
+- `page` (number, optional): Page number for pagination.
+- `filters` (string, optional): Legacy filter value. Accepted values are:
+  - `free` → mapped to `mode=free`
+  - `paid` → mapped to `mode=paid`
+  - `verified` → mapped to `verified=1`
+  - `unverified` → mapped to `verified=0`
+  - `newest` → mapped to `sortBy=createdAt&order=desc`
+  - `oldest` → mapped to `sortBy=createdAt&order=asc`
+  - `mostviewed` → mapped to `sortBy=views&order=desc`
+  - `leastviewed` → mapped to `sortBy=views&order=asc`
+  - `hot` → uses the dedicated trending endpoint
 
 #### Response
 
@@ -44,21 +56,24 @@ Returns a JSON object containing script data.
 }
 ```
 
+---
+
 ### 2. `/api/search`
 
-Searches for scripts using the provided query string.
+Searches for scripts using a provided query string.
 
 - **Method:** `GET`
-- **Description:** Searches the Scriptblox API for scripts matching the provided query.
+- **Description:** Searches Scriptblox for scripts matching your query. In addition to the new parameters, the legacy `filters` parameter is supported and will be automatically mapped. You can also pass the new parameters (`mode`, `verified`, `sortBy`, `order`) directly.
 - **Rate Limiting:** 1 request per second.
 
 #### Request
 
 - **Query Parameters:**
   - `q` (string, required): The search query.
-  - `page` (number, optional): The page number to retrieve. This allows you to navigate through all available pages.
+  - `page` (number, optional): Page number for pagination.
   - `scriptName` (string, optional): Filter results by script name.
   - `mode` (string, optional): Filter results by mode (`free` or `paid`).
+  - `filters` (string, optional): Legacy filter values (see `/api/fetch` for supported values).
 
 #### Response
 
@@ -66,7 +81,10 @@ Returns a JSON object containing the search results.
 
 #### Example
 
-Request URL: `https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal&page=1&mode=free`
+Request URL:  
+```
+https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal&page=1&mode=free
+```
 
 ```json
 {
@@ -105,17 +123,19 @@ Request URL: `https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal&page=
 }
 ```
 
+---
+
 ### 3. `/api/info`
 
 Fetches user information from the Scriptblox API.
 
 - **Method:** `GET`
-- **Description:** gets the info of an specific account when putting the username.
-
+- **Description:** Retrieves account details for a specified username.
+  
 #### Request
 
 - **Query Parameters:**
-  - `username` (string): The username of the user (required).
+  - `username` (string, required): The username of the user.
 
 #### Response
 
@@ -123,7 +143,10 @@ Returns a JSON object containing user data.
 
 #### Example
 
-Request URL: `https://scriptblox-api-proxy.vercel.app/api/info?username=YellowGreg`
+Request URL:  
+```
+https://scriptblox-api-proxy.vercel.app/api/info?username=YellowGreg
+```
 
 ```json
 {
@@ -150,32 +173,41 @@ Request URL: `https://scriptblox-api-proxy.vercel.app/api/info?username=YellowGr
 }
 ```
 
+---
+
 ### 4. `/api/pfp`
 
 Fetches the profile picture of a user from the Scriptblox API.
 
 - **Method:** `GET`
-- **Description:** Gets the profile picture(image) of a user, on their username.
-
+- **Description:** Retrieves the profile image of a user based on their username.
+  
 #### Request
 
 - **Query Parameters:**
-  - `username` (string): The username of the user (required).
+  - `username` (string, required): The username of the user.
 
 #### Response
 
-Returns the profile picture as an image.
+Returns the user's profile picture as an image response.
 
 #### Example
 
-Request URL: `https://scriptblox-api-proxy.vercel.app/api/pfp?username=YellowGreg`
+Request URL:  
+```
+https://scriptblox-api-proxy.vercel.app/api/pfp?username=YellowGreg
+```
 
-- Returns an image response.
+---
 
 ## Usage
 
-This makes the HTTP requests to the API endpoints to fetch or search for scripts. Also note that it has a rate limits to avoid 429 errors due to too many requests.
+This proxy makes HTTP requests to the Scriptblox API endpoints to fetch or search for scripts. It also implements rate limiting (1 request per second) to help avoid hitting API rate limits, ensuring stable and reliable access even during peak usage.
+
+## Legacy Support & Migration
+
+The proxy has been updated to support the new API parameters introduced by Scriptblox. Legacy requests that still use the deprecated `filters` parameter are automatically translated to their new equivalents. This legacy mapping is temporary, allowing for a grace period during migration.
 
 ## License
 
-This API is free to use. I created it for my own script searcher website that had been broken.
+This API is free to use. It was created to restore functionality to my script searcher website after the Scriptblox API changes disrupted my script searcher website.
