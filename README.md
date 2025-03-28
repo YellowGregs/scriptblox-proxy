@@ -34,6 +34,10 @@ Returns a JSON object containing script data.
 
 #### Example
 
+```
+https://scriptblox-api-proxy.vercel.app/api/fetch?page=1&mode=free
+```
+
 ```json
 {
   "result": {
