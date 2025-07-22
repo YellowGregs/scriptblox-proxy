@@ -4,6 +4,8 @@ This proxy API was built to restore functionality to my script searcher website 
 
 ## Endpoints
 
+proxy url: `https://scriptblox-api-proxy.vercel.app/api/`
+
 ### 1. `/api/fetch`
 
 Fetches a list of scripts from the Scriptblox API.
