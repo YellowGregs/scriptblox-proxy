@@ -204,6 +204,58 @@ https://scriptblox-api-proxy.vercel.app/api/pfp?username=YellowGreg
 
 ---
 
+### 5. `/api/trending`
+
+Fetches the currently trending scripts from Scriptblox.
+
+* **Method:** `GET`
+* **Description:** Returns a targeted list of scripts receiving the most community interactions recently.
+* **Query Parameters:**
+
+  * `max` (number, optional): Limits the number of results returned (maximum 20). Defaults to 20 if not specified.
+
+#### Request
+
+```
+https://scriptblox-api-proxy.vercel.app/api/trending?max=10
+```
+
+#### Response
+
+Returns a JSON object with the structure:
+
+```json
+{
+  "result": {
+    "max": 10,
+    "scripts": [
+      {
+        "_id": "string",
+        "title": "string",
+        "game": {
+          "_id": "string",
+          "name": "string",
+          "imageUrl": "string"
+        },
+        "slug": "string",
+        "verified": true,
+        "key": false,
+        "views": 12345,
+        "scriptType": "string",
+        "isPatched": false,
+        "isUniversal": true,
+        "createdAt": "2025-07-22T00:00:00Z",
+        "image": "string"
+      }
+      // ...
+    ]
+  }
+}
+```
+
+
+---
+
 ## Usage
 
 This proxy makes HTTP requests to the Scriptblox API endpoints to fetch or search for scripts. It also implements rate limiting (1 request per second) to help avoid hitting API rate limits, ensuring stable and reliable access even during peak usage.
