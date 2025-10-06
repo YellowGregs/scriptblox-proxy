@@ -89,7 +89,7 @@ Returns a JSON object containing the search results.
 
 Request URL:  
 ```
-https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal&page=1&mode=free
+https://scriptblox-api-proxy.vercel.app/api/search?q=Arsenal&page=2&max=10&mode=free&verified=1&sortBy=views&order=desc&strict=false
 ```
 
 ```json
